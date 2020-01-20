@@ -27,7 +27,7 @@
 	<modules>
 		<module>spring-cloud-dataflow-common-test-docker</module>
 		<module>spring-cloud-dataflow-common-test-docker-junit5</module>
-		<module>spring-cloud-dataflow-commons-dependencies</module>
+		<module>spring-cloud-dataflow-common-dependencies</module>
 	</modules>
 
 	<dependencyManagement>
