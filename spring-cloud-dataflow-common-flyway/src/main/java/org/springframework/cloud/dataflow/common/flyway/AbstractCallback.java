@@ -84,6 +84,11 @@ public abstract class AbstractCallback implements Callback {
 		}
 	}
 
+	@Override
+	public String getCallbackName() {
+		return "";
+	}
+
 	/**
 	 * Gets the commands.
 	 *
