@@ -95,7 +95,7 @@ public class DockerComposeManager {
 					log = dockerComposeData.getLog();
 				}
 			}
-			Builder builder = DockerComposeRule.builder();
+			Builder<?> builder = DockerComposeRule.builder();
 			builder.files(DockerComposeFiles.from(locations.toArray(new String[0])));
 			for (String service : services) {
 				builder.waitingForService(service, toHaveAllPortsOpen());
@@ -129,7 +129,7 @@ public class DockerComposeManager {
 					log = dockerComposeData.getLog();
 				}
 			}
-			Builder builder = DockerComposeRule.builder();
+			Builder<?> builder = DockerComposeRule.builder();
 			builder.files(DockerComposeFiles.from(locations.toArray(new String[0])));
 			for (String service : services) {
 				builder.waitingForService(service, toHaveAllPortsOpen());
