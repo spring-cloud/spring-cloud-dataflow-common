@@ -15,16 +15,16 @@
  */
 package org.springframework.cloud.dataflow.common.test.docker.compose.execution;
 
-import static java.util.Optional.empty;
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.core.Is.is;
-
 import java.io.IOException;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.TemporaryFolder;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerCommandLocations;
+
+import static java.util.Optional.empty;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
 
 public class DockerCommandLocationsTests {
     private static final String badLocation = "file/that/does/not/exist";

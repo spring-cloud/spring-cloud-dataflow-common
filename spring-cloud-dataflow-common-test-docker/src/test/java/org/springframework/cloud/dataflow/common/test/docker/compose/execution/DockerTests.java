@@ -15,20 +15,19 @@
  */
 package org.springframework.cloud.dataflow.common.test.docker.compose.execution;
 
+import java.io.IOException;
+
+import com.github.zafarkhaja.semver.Version;
+import org.junit.Before;
+import org.junit.Test;
+
 import static org.apache.commons.io.IOUtils.toInputStream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.is;
-import static org.mockito.Matchers.anyVararg;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import com.github.zafarkhaja.semver.Version;
-import java.io.IOException;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.Docker;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerExecutable;
 
 public class DockerTests {
 
@@ -39,7 +38,7 @@ public class DockerTests {
 
     @Before
     public void before() throws IOException {
-        when(executor.execute(anyVararg())).thenReturn(executedProcess);
+        when(executor.execute(any())).thenReturn(executedProcess);
         when(executedProcess.exitValue()).thenReturn(0);
     }
 

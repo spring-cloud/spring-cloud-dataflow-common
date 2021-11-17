@@ -15,14 +15,13 @@
  */
 package org.springframework.cloud.dataflow.common.test.docker.compose.execution;
 
-import static org.mockito.Mockito.inOrder;
-import static org.mockito.Mockito.mock;
-
 import org.junit.Test;
 import org.mockito.InOrder;
+
 import org.springframework.cloud.dataflow.common.test.docker.compose.configuration.ShutdownStrategy;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.Docker;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerCompose;
+
+import static org.mockito.Mockito.inOrder;
+import static org.mockito.Mockito.mock;
 
 public class KillDownShutdownStrategyTests {
 

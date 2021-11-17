@@ -15,14 +15,13 @@
  */
 package org.springframework.cloud.dataflow.common.test.docker.compose.execution;
 
+import com.github.zafarkhaja.semver.Version;
+import org.junit.Test;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.lessThan;
-
-import com.github.zafarkhaja.semver.Version;
-import org.junit.Test;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerComposeVersion;
 
 
 public class DockerComposeVersionTests {

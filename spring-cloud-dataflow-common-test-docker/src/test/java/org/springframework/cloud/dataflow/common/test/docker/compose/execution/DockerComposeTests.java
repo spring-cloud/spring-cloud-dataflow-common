@@ -15,11 +15,28 @@
  */
 package org.springframework.cloud.dataflow.common.test.docker.compose.execution;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+
+import org.springframework.cloud.dataflow.common.test.docker.compose.connection.Container;
+import org.springframework.cloud.dataflow.common.test.docker.compose.connection.ContainerName;
+import org.springframework.cloud.dataflow.common.test.docker.compose.connection.DockerMachine;
+import org.springframework.cloud.dataflow.common.test.docker.compose.connection.DockerPort;
+import org.springframework.cloud.dataflow.common.test.docker.compose.connection.Ports;
+
 import static org.apache.commons.io.IOUtils.toInputStream;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.contains;
 import static org.hamcrest.core.Is.is;
-import static org.mockito.Matchers.anyVararg;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.reset;
 import static org.mockito.Mockito.times;
@@ -27,27 +44,6 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerComposeExecArgument.arguments;
 import static org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerComposeExecOption.options;
-
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
-import java.util.List;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.springframework.cloud.dataflow.common.test.docker.compose.connection.Container;
-import org.springframework.cloud.dataflow.common.test.docker.compose.connection.ContainerName;
-import org.springframework.cloud.dataflow.common.test.docker.compose.connection.DockerMachine;
-import org.springframework.cloud.dataflow.common.test.docker.compose.connection.DockerPort;
-import org.springframework.cloud.dataflow.common.test.docker.compose.connection.Ports;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DefaultDockerCompose;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerCompose;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerComposeExecutable;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerComposeRunArgument;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerComposeRunOption;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerExecutionException;
 
 public class DockerComposeTests {
 
@@ -64,7 +60,7 @@ public class DockerComposeTests {
     @Before
     public void before() throws IOException {
         when(dockerMachine.getIp()).thenReturn("0.0.0.0");
-        when(executor.execute(anyVararg())).thenReturn(executedProcess);
+        when(executor.execute(any())).thenReturn(executedProcess);
         when(executedProcess.getInputStream()).thenReturn(toInputStream("0.0.0.0:7000->7000/tcp"));
         when(executedProcess.exitValue()).thenReturn(0);
         when(container.getContainerName()).thenReturn("my-container");

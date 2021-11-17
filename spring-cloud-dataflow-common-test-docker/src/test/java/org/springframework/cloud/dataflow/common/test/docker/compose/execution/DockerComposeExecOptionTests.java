@@ -15,12 +15,11 @@
  */
 package org.springframework.cloud.dataflow.common.test.docker.compose.execution;
 
+import org.junit.Test;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.collection.IsEmptyCollection.empty;
 import static org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerComposeExecOption.noOptions;
-
-import org.junit.Test;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerComposeExecOption;
 
 public class DockerComposeExecOptionTests {
 

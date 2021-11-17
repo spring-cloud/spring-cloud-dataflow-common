@@ -15,25 +15,22 @@
  */
 package org.springframework.cloud.dataflow.common.test.docker.compose.execution;
 
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.anySetOf;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.verifyZeroInteractions;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.ConflictingContainerRemovingDockerCompose;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.Docker;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerCompose;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerExecutionException;
+
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentMatchers.anySet;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 
 public class ConflictingContainerRemovingDockerComposeTests {
 	private final DockerCompose dockerCompose = mock(DockerCompose.class);
@@ -56,7 +53,7 @@ public class ConflictingContainerRemovingDockerComposeTests {
 		conflictingContainerRemovingDockerCompose.up();
 
 		verify(dockerCompose, times(1)).up();
-		verifyZeroInteractions(docker);
+		verifyNoMoreInteractions(docker);
 	}
 
 	@Test
@@ -93,7 +90,7 @@ public class ConflictingContainerRemovingDockerComposeTests {
 		String conflictingContainer = "conflictingContainer";
 		doThrow(new DockerExecutionException("The name \"" + conflictingContainer + "\" is already in use")).doNothing()
 				.when(dockerCompose).up();
-		doThrow(DockerExecutionException.class).when(docker).rm(anySetOf(String.class));
+		doThrow(DockerExecutionException.class).when(docker).rm(anySet());
 
 		ConflictingContainerRemovingDockerCompose conflictingContainerRemovingDockerCompose = new ConflictingContainerRemovingDockerCompose(
 				dockerCompose, docker);
@@ -108,7 +105,7 @@ public class ConflictingContainerRemovingDockerComposeTests {
 		String conflictingContainer = "conflictingContainer";
 		doThrow(new DockerExecutionException("The name \"" + conflictingContainer + "\" is already in use")).doNothing()
 				.when(dockerCompose).up();
-		doThrow(RuntimeException.class).when(docker).rm(anySetOf(String.class));
+		doThrow(RuntimeException.class).when(docker).rm(anySet());
 
 		exception.expect(RuntimeException.class);
 		ConflictingContainerRemovingDockerCompose conflictingContainerRemovingDockerCompose = new ConflictingContainerRemovingDockerCompose(

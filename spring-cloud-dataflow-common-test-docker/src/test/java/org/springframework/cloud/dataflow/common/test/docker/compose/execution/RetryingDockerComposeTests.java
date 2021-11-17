@@ -15,9 +15,19 @@
  */
 package org.springframework.cloud.dataflow.common.test.docker.compose.execution;
 
+import java.io.IOException;
+import java.util.List;
+
+import org.junit.Before;
+import org.junit.Test;
+
+import org.springframework.cloud.dataflow.common.test.docker.compose.TestContainerNames;
+import org.springframework.cloud.dataflow.common.test.docker.compose.connection.ContainerName;
+import org.springframework.cloud.dataflow.common.test.docker.compose.execution.Retryer.RetryableDockerOperation;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.core.Is.is;
-import static org.mockito.Matchers.any;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -25,19 +35,6 @@ import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerComposeExecArgument.arguments;
 import static org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerComposeExecOption.options;
-
-import java.io.IOException;
-import java.util.List;
-import org.junit.Before;
-import org.junit.Test;
-import org.springframework.cloud.dataflow.common.test.docker.compose.TestContainerNames;
-import org.springframework.cloud.dataflow.common.test.docker.compose.connection.ContainerName;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerCompose;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerComposeRunArgument;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerComposeRunOption;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.Retryer;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.RetryingDockerCompose;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.Retryer.RetryableDockerOperation;
 
 public class RetryingDockerComposeTests {
     private final DockerCompose dockerCompose = mock(DockerCompose.class);

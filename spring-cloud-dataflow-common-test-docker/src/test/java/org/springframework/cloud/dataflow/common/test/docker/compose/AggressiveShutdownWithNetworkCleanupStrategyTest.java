@@ -15,7 +15,7 @@
  */
 package org.springframework.cloud.dataflow.common.test.docker.compose;
 
-import static org.mockito.Matchers.anyListOf;
+import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.times;
@@ -41,7 +41,7 @@ public class AggressiveShutdownWithNetworkCleanupStrategyTest {
     public void docker_compose_down_should_be_called_despite_docker_rm_throwing_exception() throws Exception {
         doThrow(new DockerExecutionException(error_msg))
                 .when(mockDocker)
-                .rm(anyListOf(String.class));
+                .rm(anyList());
 
         ShutdownStrategy.AGGRESSIVE_WITH_NETWORK_CLEANUP.shutdown(mockDockerCompose, mockDocker);
 

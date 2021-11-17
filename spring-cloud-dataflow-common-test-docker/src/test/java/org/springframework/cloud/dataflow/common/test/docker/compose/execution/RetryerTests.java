@@ -15,6 +15,15 @@
  */
 package org.springframework.cloud.dataflow.common.test.docker.compose.execution;
 
+import org.joda.time.Duration;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnitRunner;
+
+import org.springframework.cloud.dataflow.common.test.docker.compose.utils.MockitoMultiAnswer;
+import org.springframework.util.StopWatch;
+
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.lessThan;
@@ -23,17 +32,6 @@ import static org.junit.Assert.fail;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
-import java.util.concurrent.TimeUnit;
-import org.joda.time.Duration;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.DockerExecutionException;
-import org.springframework.cloud.dataflow.common.test.docker.compose.execution.Retryer;
-import org.springframework.cloud.dataflow.common.test.docker.compose.utils.MockitoMultiAnswer;
-import org.springframework.util.StopWatch;
 
 @RunWith(MockitoJUnitRunner.class)
 public class RetryerTests {
