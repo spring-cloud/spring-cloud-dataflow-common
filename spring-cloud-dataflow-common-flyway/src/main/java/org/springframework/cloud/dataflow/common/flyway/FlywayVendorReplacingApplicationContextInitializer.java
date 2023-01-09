@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2022 the original author or authors.
+ * Copyright 2022-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -22,25 +22,34 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.env.EnvironmentPostProcessor;
+import org.springframework.context.ApplicationContextInitializer;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.Ordered;
 import org.springframework.core.env.ConfigurableEnvironment;
 import org.springframework.core.env.MapPropertySource;
 
 /**
- * An {@link EnvironmentPostProcessor} that replaces any configured 'spring.flyways.locations'
+ * An {@link ApplicationContextInitializer} that replaces any configured 'spring.flyways.locations'
  * properties that contain the '{vendor}' token with 'mysql' when using the MariaDB driver
  * to access a MySQL database.
  *
+ * <p>Typically property manipulation like this is implemented as an {@link EnvironmentPostProcessor} but
+ * in order to work with applications that are using Config server it must be a context initializer
+ * so it can run after the {@code org.springframework.cloud.bootstrap.config.PropertySourceBootstrapConfiguration}
+ * context initializer.
+ *
  * @author Chris Bono
  */
-public class FlywayVendorReplacingEnvironmentPostProcessor implements EnvironmentPostProcessor, Ordered {
+public class FlywayVendorReplacingApplicationContextInitializer implements
+		ApplicationContextInitializer<ConfigurableApplicationContext>, Ordered {
 
-	private final Logger log = LoggerFactory.getLogger(FlywayVendorReplacingEnvironmentPostProcessor.class);
+	private final Logger log = LoggerFactory.getLogger(FlywayVendorReplacingApplicationContextInitializer.class);
 
 	@Override
-	public void postProcessEnvironment(ConfigurableEnvironment env, SpringApplication app) {
+	public void initialize(ConfigurableApplicationContext applicationContext) {
+
+		ConfigurableEnvironment env = applicationContext.getEnvironment();
 
 		// If there is a spring.datasource.url prefixed w/ "jdbc:mysql:" and using the MariaDB driver then replace {vendor}
 		boolean usingMariaDriver = env.getProperty("spring.datasource.driver-class-name", "").equals("org.mariadb.jdbc.Driver");
@@ -80,10 +89,10 @@ public class FlywayVendorReplacingEnvironmentPostProcessor implements Environmen
 	/**
 	 * The precedence for execution order - should execute last.
 	 *
-	 * @return lowest precedence to ensure it executes after other post processors
+	 * @return lowest precedence to ensure it executes after other initializers
 	 */
 	@Override
 	public int getOrder() {
-		return 100;
+		return Ordered.LOWEST_PRECEDENCE;
 	}
 }

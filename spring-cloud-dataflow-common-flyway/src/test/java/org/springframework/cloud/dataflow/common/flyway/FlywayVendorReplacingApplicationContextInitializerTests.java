@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2022 the original author or authors.
+ * Copyright 2022-2023 the original author or authors.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -27,18 +27,16 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.test.context.runner.ApplicationContextRunner;
 import org.springframework.core.env.ConfigurableEnvironment;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.params.provider.Arguments.arguments;
-import static org.mockito.Mockito.mock;
 
 /**
- * Tests for {@link FlywayVendorReplacingEnvironmentPostProcessor}.
+ * Tests for {@link FlywayVendorReplacingApplicationContextInitializer}.
  */
-public class FlywayVendorReplacingEnvironmentPostProcessorTests {
+public class FlywayVendorReplacingApplicationContextInitializerTests {
 
 	@ParameterizedTest(name = "{0}")
 	@MethodSource("vendorReplacedProperlyProvider")
@@ -59,9 +57,9 @@ public class FlywayVendorReplacingEnvironmentPostProcessorTests {
 				assertThat(env.getProperty(key)).isEqualTo(value);
 			});
 
-			// Run the env through the EPP
-			FlywayVendorReplacingEnvironmentPostProcessor epp = new FlywayVendorReplacingEnvironmentPostProcessor();
-			epp.postProcessEnvironment(env, mock(SpringApplication.class));
+			// Run the env through the ACI
+			FlywayVendorReplacingApplicationContextInitializer flywayVendorReplacingInitializer = new FlywayVendorReplacingApplicationContextInitializer();
+			flywayVendorReplacingInitializer.initialize(context);
 
 			// Verify they are replaced as expected
 			finalLocationProps.forEach((location) -> {
